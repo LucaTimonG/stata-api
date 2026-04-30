@@ -52,25 +52,28 @@ api, url("[https://api.example.com/data](https://api.example.com/data)") key("yo
 
 
 
-🛠 Technical Workflow
-When you run api, the following steps occur:
+---
 
-Environment Check: Stata verifies if a Python environment exists in ado/personal/webget_env.
+### 🛠 Technical Workflow
 
-Auto-Setup: If missing, Stata triggers python -m venv to build the local environment.
+When you run `api`, the following steps occur:
 
-Dependency Check: A temporary Python script ensures pandas and requests are installed. If not, it runs pip install internally.
+1.  **Environment Check**: Stata verifies if a Python environment exists in `ado/personal/webget_env`.
+2.  **Auto-Setup**: If missing, Stata triggers `python -m venv` to build the local environment.
+3.  **Dependency Check**: A temporary Python script ensures `pandas` and `requests` are installed. If not, it runs `pip install` internally.
+4.  **Data Retrieval**: Python fetches the URL, flattens the JSON using `pandas.json_normalize`, and saves it as a CSV.
+5.  **Import**: Stata creates `api_frame` and imports the CSV data using **UTF-8** encoding.
 
-Data Retrieval: Python fetches the URL, flattens the JSON using pandas.json_normalize, and saves it as a CSV.
+---
 
-Import: Stata creates api_frame and imports the CSV data using UTF-8 encoding.
+### ⚠️ Troubleshooting
 
-⚠️ Troubleshooting
-Python environment not found: Ensure Python is installed from python.org and the "Add Python to PATH" box was checked during installation.
+*   **Python environment not found**: Ensure Python is installed from [python.org](https://www.python.org/) and the "Add Python to PATH" box was checked during installation.
+*   **Network Errors**: In corporate environments, firewalls may block the automatic download of Python packages. Contact your IT department if the initial setup fails.
+*   **Empty Data**: Some APIs wrap data in root objects (e.g., `{"status": "success", "data": [...]}`). The command attempts to flatten the entire response.
 
-Network Errors: In corporate environments, firewalls may block the automatic download of Python packages. Contact your IT department if the initial setup fails.
+---
 
-Empty Data: Some APIs wrap data in root objects (e.g., {"status": "success", "data": [...]}). The command attempts to flatten the entire response.
+### 📄 License
 
-📄 License
-This project is licensed under the MIT License. You are free to use, modify, and distribute this software, provided that the original copyright notice is included.
+This project is licensed under the **MIT License**. You are free to use, modify, and distribute this software, provided that the original copyright notice is included.

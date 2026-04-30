@@ -42,3 +42,34 @@ To use `api`, ensure the following:
 To fetch data from a public API:
 ```stata
 api, url("[https://jsonplaceholder.typicode.com/users](https://jsonplaceholder.typicode.com/users)")
+
+
+API Keys and Authentication
+If an API requires an access key, you can pass it via the key() option:
+
+Stata
+api, url("[https://api.example.com/data](https://api.example.com/data)") key("your_secret_api_key")
+Note: The current implementation passes the key as a parameter. For APIs requiring specific Authorization headers, the Python generation logic within the .ado file can be easily customized.
+
+🛠 Technical Workflow
+When you run api, the following steps occur:
+
+Environment Check: Stata verifies if a Python environment exists in ado/personal/webget_env.
+
+Auto-Setup: If missing, Stata triggers python -m venv to build the local environment.
+
+Dependency Check: A temporary Python script ensures pandas and requests are installed. If not, it runs pip install internally.
+
+Data Retrieval: Python fetches the URL, flattens the JSON using pandas.json_normalize, and saves it as a CSV.
+
+Import: Stata creates api_frame and imports the CSV data using UTF-8 encoding.
+
+⚠️ Troubleshooting
+Python environment not found: Ensure Python is installed from python.org and the "Add Python to PATH" box was checked during installation.
+
+Network Errors: In corporate environments, firewalls may block the automatic download of Python packages. Contact your IT department if the initial setup fails.
+
+Empty Data: Some APIs wrap data in root objects (e.g., {"status": "success", "data": [...]}). The command attempts to flatten the entire response.
+
+📄 License
+This project is licensed under the MIT License. You are free to use, modify, and distribute this software, provided that the original copyright notice is included.

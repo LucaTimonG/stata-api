@@ -42,8 +42,6 @@ To use `api`, ensure the following:
 To fetch data from a public API:
 ```stata
 api, url("[https://jsonplaceholder.typicode.com/users](https://jsonplaceholder.typicode.com/users)")
-
-
 API Keys and Authentication
 If an API requires an access key, you can pass it via the key() option:
 

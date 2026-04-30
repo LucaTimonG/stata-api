@@ -216,3 +216,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Stata specific
+api_data.csv
+api_script.py
+webget_env/
+*.log
+
